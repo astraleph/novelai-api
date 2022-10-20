@@ -13,17 +13,17 @@ class ImageModel(enum.Enum):
 
 
 class ImageResolution(enum.Enum):
-    Small_Portrait      = ( 384,  640)
-    Small_Landscape     = ( 640,  384)
-    Small_Square        = ( 512,  512)
+    Small_Portrait = (384,  640)
+    Small_Landscape = (640,  384)
+    Small_Square = (512,  512)
 
-    Normal_Portrait     = ( 512,  768)
-    Normal_Landscape    = ( 768,  512)
-    Normal_Square       = ( 640,  640)
+    Normal_Portrait = (512,  768)
+    Normal_Landscape = (768,  512)
+    Normal_Square = (640,  640)
 
-    Large_Portrait      = ( 512, 1024)
-    Large_Landscape     = (1024,  512)
-    Large_Square        = (1024, 1024)
+    Large_Portrait = (512, 1024)
+    Large_Landscape = (1024,  512)
+    Large_Square = (1024, 1024)
 
 
 class ImageSampler(enum.Enum):
@@ -78,6 +78,7 @@ class ImagePreset:
         "sampler":          ImageSampler,
         "noise":            (int, float),
         "strength":         (int, float),
+        "scale":           (int, float),
         "steps":            int,
         "uc":               str
     }
@@ -92,6 +93,7 @@ class ImagePreset:
         "sampler":          ImageSampler.k_euler_ancestral,
         "noise":            0.2,
         "strength":         0.7,
+        "scale":            11,
         "steps":            28,
         "uc":               ""
     }
@@ -115,9 +117,9 @@ class ImagePreset:
 
         return self
 
-    def copy(self) -> "ImagePreset":    return ImagePreset(**self._settings)
-    def __contains__(self, o: str):     return self._settings.__contains__(o)
-    def __getitem__(self, o: str):      return self._settings.__getitem__(o)
+    def copy(self) -> "ImagePreset": return ImagePreset(**self._settings)
+    def __contains__(self, o: str): return self._settings.__contains__(o)
+    def __getitem__(self, o: str): return self._settings.__getitem__(o)
 
     def to_settings(self, model: ImageModel) -> Dict[str, Any]:
         settings = copy.deepcopy(self._settings)
@@ -145,11 +147,11 @@ class ImagePreset:
 
     @classmethod
     def from_file(cls, path: str) -> "ImagePreset":
-        with open(path, encoding = "utf-8") as f:
+        with open(path, encoding="utf-8") as f:
             data = json.loads(f.read())
 
         return cls(**data)
 
     def to_file(self, path: str):
-        with open(path, 'w', encoding = "utf-8") as f:
+        with open(path, 'w', encoding="utf-8") as f:
             f.write(json.dumps(self._settings))
