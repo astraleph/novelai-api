@@ -78,7 +78,7 @@ class ImagePreset:
         "sampler":          ImageSampler,
         "noise":            (int, float),
         "strength":         (int, float),
-        "scale":           (int, float),
+        "scale":            (int, float),
         "steps":            int,
         "uc":               str
     }
